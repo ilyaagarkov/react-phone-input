@@ -40,25 +40,26 @@ const common = {
 //Development configuration settings
 if (TARGET === 'dev') {
   module.exports = merge(common, {
-    devtool: 'eval',
+    devtool: "inline-source-map",
     devServer: {
-      publicPath: 'http://localhost:8181/',
-      port: '8181',
-      host: '0.0.0.0',
+      publicPath: "http://localhost:8181/",
+      port: "8181",
+      host: "0.0.0.0",
       colors: true,
       historyApiFallback: true,
       hot: true,
+      noInfo: false,
       inline: true,
       progress: true,
-      contentBase: 'dist'
+      contentBase: "dist"
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin({
-        'process.env': {
-          'NODE_ENV': JSON.stringify('development')
+        "process.env": {
+          NODE_ENV: JSON.stringify("development")
         },
-        '__DEV__': true
+        __DEV__: true
       })
     ]
   });
