@@ -4,6 +4,7 @@ import { some, find, reduce, map, filter, includes } from 'lodash/collection';
 import { findIndex, head, tail } from 'lodash/array';
 import { debounce, memoize } from 'lodash/function';
 import { trim, startsWith } from 'lodash/string';
+import { isEmpty } from 'lodash/lang'
 import React from 'react';
 import PropTypes from 'prop-types';
 import countryData from './country_data.js';
@@ -33,6 +34,7 @@ class ReactPhoneInput extends React.Component {
     autoFormat: PropTypes.bool,
     disabled: PropTypes.bool,
     disableAreaCodes: PropTypes.bool,
+    hideAreaCodes: PropTypes.bool,
 
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
@@ -60,6 +62,7 @@ class ReactPhoneInput extends React.Component {
     autoFormat: true,
     disabled: false,
     disableAreaCodes: false,
+    hideAreaCodes: false,
     isValid: (inputNumber) => {
       return some(countryData.allCountries, (country) => {
         return startsWith(inputNumber, country.dialCode) || startsWith(country.dialCode, inputNumber);
@@ -81,9 +84,14 @@ class ReactPhoneInput extends React.Component {
 
     if (props.disableAreaCodes) filteredCountries = this.deleteAreaCodes(filteredCountries);
     if (props.regions) filteredCountries = this.filterRegions(props.regions, filteredCountries);
-
+  
     const onlyCountries = this.excludeCountries(
       this.getOnlyCountries(props.onlyCountries, filteredCountries), props.excludeCountries);
+
+    let dropDownCountries = onlyCountries;
+    if (!props.disableAreaCodes && props.hideAreaCodes) {
+      dropDownCountries = this.deleteAreaCodes(filteredCountries);
+    }
 
     const preferredCountries = filter(countryData.allCountries, (country) => {
       return some(props.preferredCountries, (preferredCountry) => {
@@ -96,7 +104,7 @@ class ReactPhoneInput extends React.Component {
     let countryGuess;
     if (inputNumber.length > 1) {
       // Country detect by value field
-      countryGuess = this.guessSelectedCountry(inputNumber.substring(1, 6), onlyCountries, props.defaultCountry) || 0;
+      countryGuess = this.guessSelectedCountry(inputNumber.substring(0, 6), onlyCountries, props.defaultCountry) || 0;
     } else if (props.defaultCountry) {
       // Default country
       countryGuess = find(onlyCountries, {iso2: props.defaultCountry}) || 0;
@@ -119,6 +127,7 @@ class ReactPhoneInput extends React.Component {
       formattedNumber,
       placeholder: props.placeholder,
       onlyCountries,
+      dropDownCountries,
       preferredCountries,
       defaultCountry: props.defaultCountry,
       selectedCountry: countryGuess,
@@ -209,7 +218,7 @@ class ReactPhoneInput extends React.Component {
   });
 
   guessSelectedCountry = memoize((inputNumber, onlyCountries, defaultCountry) => {
-    const secondBestGuess = find(onlyCountries, {iso2: defaultCountry}) || {};
+    const secondBestGuess = isEmpty(defaultCountry) ? {} : find(onlyCountries, { iso2: defaultCountry });
     if (trim(inputNumber) === '') return secondBestGuess;
 
     const bestGuess = reduce(onlyCountries, (selectedCountry, country) => {
@@ -555,9 +564,11 @@ class ReactPhoneInput extends React.Component {
   }
 
   getCountryDropdownList = () => {
-    const { preferredCountries, onlyCountries, highlightCountryIndex, showDropdown } = this.state;
+    // TODO: optimize this code
+    // console.time("getCountryDropdownList");
+    const { preferredCountries, dropDownCountries, highlightCountryIndex, showDropdown } = this.state;
 
-    let countryDropdownList = map(preferredCountries.concat(onlyCountries), (country, index) => {
+    let countryDropdownList = map(preferredCountries.concat(dropDownCountries), (country, index) => {
       const itemClasses = classNames({
         country: true,
         preferred: country.iso2 === 'us' || country.iso2 === 'gb',
@@ -593,6 +604,7 @@ class ReactPhoneInput extends React.Component {
       'country-list': true,
       'hide': !showDropdown
     });
+    // console.timeEnd("getCountryDropdownList");
 
     return (
       <ul
