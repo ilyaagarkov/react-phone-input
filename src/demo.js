@@ -38,7 +38,28 @@ export default render(
       <h4>Customizable placeholder</h4>
       <h4>Customizable styles</h4>
       <ReactPhoneInput
+        value="12361111111"
         disableAreaCodes={true}
+        placeholder='Type your phone here'
+        inputStyle={{
+          width: '300px',
+          height: '35px',
+          fontSize: '13px',
+          paddingLeft: '48px',
+          borderRadius: '5px'
+        }}
+        buttonStyle={{ borderRadius: '5px 0 0 5px' }}
+        dropdownStyle={{ width: '300px' }}
+      />
+      <h4>
+        Area codes are hidden in dropdown, but work properly with country's
+        autodetection
+      </h4>
+      <h4>Customizable placeholder</h4>
+      <h4>Customizable styles</h4>
+      <ReactPhoneInput
+        value="12361111111"
+        hideAreaCodes
         placeholder='Type your phone here'
         inputStyle={{
           width: '300px',
