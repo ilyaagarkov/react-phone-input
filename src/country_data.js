@@ -1489,10 +1489,14 @@ const allCountries = [].concat(...rawAllCountries.map((country) => {
     regions: country[1],
     iso2: country[2],
     dialCode: country[3],
-    format: country[4] || undefined,
+    format: country[4],
     priority: country[5] || 0,
     hasAreaCodes: country[6] ? true : false,
   };
+  // default format mask
+  if (countryItem.dialCode && !countryItem.format) {
+    countryItem.format = `+${Array(countryItem.dialCode.length + 1).join(".")} (...) ...-....`;
+  }
 
   const areaItems = [];
 
