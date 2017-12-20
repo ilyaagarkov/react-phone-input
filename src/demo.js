@@ -4,39 +4,39 @@ import ReactPhoneInput from './index';
 
 export default render(
   <div style={{ fontFamily: "'Roboto', sans-serif", fontSize: '15px' }}>
-    <div style={{ display: 'inline-block', verticalAlign: 'top' }}>
-      <p>v1.2.1</p>
-      <p>Exclude countries (usa, canada)</p>
+    <div style={{ display: 'inline-block', verticalAlign: 'top', marginRight: '30px' }}>
+      <h3>v1.2.1</h3>
+      <h4>Exclude countries (usa, canada)</h4>
       <ReactPhoneInput
         defaultCountry='no'
         excludeCountries={['us', 'ca']}
       />
-      <p>Only countries</p>
+      <h4>Only countries</h4>
       <ReactPhoneInput
         defaultCountry='gb'
         onlyCountries={['gb', 'es']}
       />
-      <p>Preferred countries</p>
+      <h4>Preferred countries</h4>
       <ReactPhoneInput
         defaultCountry='it'
         preferredCountries={['it', 'se']}
       />
     </div>
 
-    <div style={{ display: 'inline-block', marginLeft: '30px' }}>
-      <p>v2.0.0</p>
-      <p>Auto detect through value field</p>
+    <div style={{ display: 'inline-block' }}>
+      <h3>v2.0.0</h3>
+      <h4>Auto detect through value field</h4>
       <ReactPhoneInput
         value='+3802343252'
       />
-      <p>Disabled area codes with disableAreaCodes</p>
+      <h4>Disabled area codes with disableAreaCodes</h4>
       <ReactPhoneInput
         defaultCountry='us'
         disableAreaCodes={true}
       />
-      <p>Disabled flag by default</p>
-      <p>Customizable placeholder</p>
-      <p>Customizable styles</p>
+      <h4>Disabled flag by default</h4>
+      <h4>Customizable placeholder</h4>
+      <h4>Customizable styles</h4>
       <ReactPhoneInput
         disableAreaCodes={true}
         placeholder='Type your phone here'
@@ -50,12 +50,12 @@ export default render(
         buttonStyle={{ borderRadius: '5px 0 0 5px' }}
         dropdownStyle={{ width: '300px' }}
       />
-      <p>Custom regions selected: {`{'europe'}`}</p>
+      <h4>Custom regions selected: {`{'europe'}`}</h4>
       <ReactPhoneInput
         defaultCountry='it'
         regions={'europe'}
       />
-      <p>Custom regions selected: {`{['north-america', 'carribean']}`}</p>
+      <h4>Custom regions selected: {`{['north-america', 'carribean']}`}</h4>
       <ReactPhoneInput
         defaultCountry='ca'
         regions={['north-america', 'carribean']}
