@@ -332,7 +332,7 @@ class ReactPhoneInput extends React.Component {
       formattedText: '',
       remainingText: text.split('')
     });
-    return formattedObject.formattedText + formattedObject.remainingText.join('');
+    return formattedObject.formattedText;
   }
 
   // Put the cursor to the end of the input (usually after a focus event)
@@ -368,8 +368,8 @@ class ReactPhoneInput extends React.Component {
     let newSelectedCountry = this.state.selectedCountry;
     let freezeSelection = this.state.freezeSelection;
 
-    //Does not exceed 16 digit phone number limit
-    if (event.target.value.replace(/\D/g, '').length > 16) {
+    //Does not exceed 15 digit phone number limit
+    if (event.target.value.replace(/\D/g, '').length > 15) {
       return;
     }
 
