@@ -93,8 +93,8 @@ class ReactPhoneInput extends React.Component {
       dropDownCountries = this.deleteAreaCodes(filteredCountries);
     }
 
-    const preferredCountries = filter(countryData.allCountries, (country) => {
-      return some(props.preferredCountries, (preferredCountry) => {
+    const preferredCountries = filter(dropDownCountries, country => {
+      return some(props.preferredCountries, preferredCountry => {
         return preferredCountry === country.iso2;
       });
     });
