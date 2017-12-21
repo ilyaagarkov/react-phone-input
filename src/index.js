@@ -479,7 +479,12 @@ class ReactPhoneInput extends React.Component {
   }
 
   handleInputBlur = (e) => {
-    if (!e.target.value) this.setState({ placeholder: this.props.placeholder });
+    if (!e.target.value || e.target.value === '+') this.setState({
+      formattedNumber: '',
+      selectedCountry: 0,
+      placeholder: this.props.placeholder,
+    });
+
     this.props.onBlur && this.props.onBlur(e);
   }
 
