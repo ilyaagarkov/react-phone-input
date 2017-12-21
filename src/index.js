@@ -99,7 +99,7 @@ class ReactPhoneInput extends React.Component {
       });
     });
 
-    const inputNumber = props.value || '';
+    const inputNumber = props.value ? props.value.replace(/\D/g, '') : '';
 
     let countryGuess;
     if (inputNumber.length > 1) {
@@ -117,11 +117,11 @@ class ReactPhoneInput extends React.Component {
     const dialCode = (
       inputNumber.length < 2 &&
       countryGuess &&
-      !startsWith(inputNumber.replace(/\D/g, ''), countryGuess.dialCode)
+      !startsWith(inputNumber, countryGuess.dialCode)
     ) ? countryGuess.dialCode : '';
 
     const formattedNumber = (inputNumber === '' && countryGuess === 0) ? '' :
-      this.formatNumber(dialCode + inputNumber.replace(/\D/g, ''), countryGuess ? countryGuess.format : null);
+      this.formatNumber(dialCode + inputNumber, countryGuess ? countryGuess.format : null);
 
     this.state = {
       formattedNumber,
